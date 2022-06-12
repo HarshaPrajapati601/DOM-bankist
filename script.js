@@ -63,6 +63,36 @@ document.querySelector('.nav__links').addEventListener('click', function(e) {
 
 })
 
+//Tabs component
+const tabs = document.querySelectorAll('.operations__tab');
+const tabsContainer = document.querySelector('.operations__tab-container');
+const tabsContent = document.querySelectorAll('.operations__content');
+
+// tabs.forEach(tab =>  tab.addEventListener('click', () => {
+//   console.log("tiere")
+// }))
+
+tabsContainer.addEventListener('click', function(e) {
+//  if(e.target.classList.contains(' operations__tab') ) {
+  const clicked = e.target.closest('.operations__tab'); //dynamiclly setting the closest
+   console.log(clicked)
+
+   if(!clicked) return;
+   tabs.forEach(tab => {
+     tab.classList.remove('operations__content--active')
+   })
+   clicked.classList.add('operations__content--active');
+ //Remove the content area before adding
+
+ tabsContent.forEach(tab => {
+  tab.classList.remove('operations__content--active')
+})
+   //Activate the content area
+   document.querySelector(`.operations__content--${clicked.dataset.tab}`).classList.add('operations__content--active')
+//  }
+})
+
+
 
 
 
