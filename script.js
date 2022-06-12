@@ -80,3 +80,33 @@ logo.getAttribute('src')
 
 //Data attributtes --start with data
 
+
+//Implement smooth scrolling
+const btnScrollTo = document.querySelector('.btn--scroll-to');
+const section1 = document.querySelector('#section--1');
+
+btnScrollTo.addEventListener('click', function(e) {
+  //get the coordinates for section 1
+  const s1coords = section1.getBoundingClientRect();
+  console.log(s1coords);
+  console.log(e.target.getBoundingClientRect());
+ //current scrolling posiition
+  // console.log(window.pageXOffset, pageYOffset );
+  // window.scrollTo(
+  //   s1coords.left + window.pageXOffset,
+  //    s1coords.top + window.pageYOffset
+  //    );
+
+  //old way manually
+  // window.scrollTo({
+  //   left:  s1coords.left + window.pageXOffset,
+  //   top: s1coords.top + window.pageYOffset,
+  //   behavior: 'smooth'
+  // })
+
+    //new way  only for modern browsers
+  section1.scrollIntoView({
+    behavior: 'smooth'
+  })
+})
+
