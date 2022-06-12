@@ -48,13 +48,19 @@ btnScrollTo.addEventListener('click', function(e) {
 
 //page navigation
 //Event Delegation
-//choose a common parent and add event listener to it
-//Determine what element originated the event by e.target property
+//1. choose a common parent and add event listener to it
+//2. Determine what element originated the event by e.target property
  
 document.querySelector('.nav__links').addEventListener('click', function(e) {
-  // if(e.target === 'nav__link') {
-    console.log("got it", e.target)
-  // }
+  e.preventDefault();
+  //Matching strategy
+   if(e.target.classList.contains('nav__link')) { // 1.
+      const id = e.target.getAttribute('href'); // 2.
+      document.querySelector(id).scrollIntoView({ 
+        behavior: 'smooth'
+      });
+   }
+
 })
 
 
