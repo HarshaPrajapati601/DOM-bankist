@@ -62,14 +62,22 @@ btnScrollTo.addEventListener('click', function(e) {
 });
 
 //page navigation
-
-document.querySelectorAll('.nav__link').forEach(function(ele) {
-  ele.addEventListener('click', function(e) {
-    e.preventDefault();
-    console.log("linkss")
-  })
-})
- //returns a nodelist
+ //npot effecient as we are attaching the event to 1 or 100000 elements
+ //so that's y we use event delegation
+// document.querySelectorAll('.nav__link').forEach(function(ele) {
+//   ele.addEventListener('click', function(e) {
+//     e.preventDefault();
+//     const id = this.getAttribute('href');
+//     document.querySelector(id).scrollIntoView({ 
+//       behavior: 'smooth'
+//     })
+//     console.log("links")
+//   })
+// })
+ 
+//Event Delegation
+//choose a common parent and add event listener to it
+//Determine what element originated the event by e.target property
  
 
 
