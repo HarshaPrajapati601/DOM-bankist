@@ -111,6 +111,33 @@ const handleHover  = function(e) {
 nav.addEventListener('mouseover', handleHover.bind(0.5))
 
 nav.addEventListener('mouseout', handleHover.bind(1))
+ 
+//sticky scroll event available on window
+
+const initCoords = section1.getBoundingClientRect();
+const navHeader = nav.getBoundingClientRect().height;
+window.addEventListener('scroll', function(e) {
+
+  if(window.scrollY > initCoords.top ) nav.classList.add('sticky')
+  else  nav.classList.remove('sticky')
+})
+
+const stickyNavCallback = function(entries) {
+  const[entry] = entries;
+  if(!entry.isIntersecting) {
+    nav.classList.add('sticky')
+  } else {
+    nav.classList.remove('sticky')
+  }
+}
+
+const headerObserver = new IntersectionObserver(stickyNavCallback, {
+  root: null,
+  threshold: 0, //when the header is completky out of view / 0 percent ovf header is in view
+  rootMargin: `-${navHeader}px`
+});
+
+headerObserver.observe(header);
 
 
 

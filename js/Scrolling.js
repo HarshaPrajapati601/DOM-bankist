@@ -19,7 +19,7 @@ btnScrollTo.addEventListener('click', function(e) {
     //   behavior: 'smooth'
     // })
 
-     //not effecient as we are attaching the event to 1 or 100000 elements
+     //not efficient as we are attaching the event to 1 or 100000 elements
  //so that's y we use event delegation
 // document.querySelectorAll('.nav__link').forEach(function(ele) {
 //   ele.addEventListener('click', function(e) {
