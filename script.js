@@ -139,6 +139,41 @@ const headerObserver = new IntersectionObserver(stickyNavCallback, {
 
 headerObserver.observe(header);
 
+// Reveal sections
+
+const allSections = document.querySelectorAll('.section');
+
+const revealSectionCb = function(entries, observer) {
+  const [entries] = entry;
+  entries.target.classList.remove('section--hidden')
+
+}
+
+const sectionObserver = new IntersectionObserver(revealSectionCb, {
+  root: null,
+  threshold: 0.15
+});
+//which section intercepted the viewport
+
+allSections.forEach(function(section) {
+  sectionObserver.observe(section);
+  section.classList.add('section--hidden')
+})
+
+//lazy loading images
+
+const imgTargets = document.querySelectorAll('img[data-src]');
+
+const imgObserver = new IntersectionObserver(loadImgCb, {
+
+});
+
+const loadImgCb = (entries, observer) => {
+
+}
+
+imgTargets.forEach(img => imgObserver.observe(img));
+
 
 
 
