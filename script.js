@@ -190,41 +190,94 @@ imgTargets.forEach(img => imgObserver.observe(img));
 //slider component
 
 const slides = document.querySelectorAll('.slide');
-const slider = document.querySelector('.slider');
 const btnLeft = document.querySelector('.slider__btn--left');
 const btnRight = document.querySelector('.slider__btn--right');
 let currentSlide = 0;
 let slideLength = slides.length - 1;
+const dotsContainer = document.querySelector('.dots');
 
-slider.style.transform = 'scale(0.5) translateX(-300px)';
-slider.style.overflow = 'visible';
-slides.forEach((s, index) => {
-  s.style.transform = `translateX(${100 * index})`
-});
+// slider.style.transform = 'scale(0.5) translateX(-300px)';
+// slider.style.overflow = 'visible';
+const goToCurrentSlide = (slide) => {
+  slides.forEach((s, index) => {
+    s.style.transform = `translateX(${100 * (index - slide)}%)`
+  })
+}
+goToCurrentSlide(0)
 
-btnRight.addEventListener('click', function() {
+//slide right
+
+const nextSlide = function() {
   if(currentSlide === slideLength) {
     currentSlide = 0;
   }
   else {
     currentSlide++;
   }
-  
-  slides.forEach((s, index) => {
-    s.style.transform = `translateX(${100 * (index - currentSlide)})`
+  goToCurrentSlide(currentSlide);
+  activateDot(slide);
+}
+
+//slide left
+
+const prevSlide = function(){
+  if(currentSlide === 0) {
+    currentSlide = slideLength;
+  }
+  else {
+    currentSlide--;
+  }
+  goToCurrentSlide(currentSlide);
+  activateDot(slide);
+}
+
+btnRight.addEventListener('click', nextSlide);
+btnLeft.addEventListener('click', prevSlide);
+
+//Adding listeners on key press
+
+document.addEventListener('keydown', function(e) {
+  e.key === 'ArrowLeft' && nextSlide()
+  e.key === 'ArrowRight' && prevSlide()
+});
+
+//Creating dots
+
+const createDots = function()  {
+  slides.forEach(function(_, i) {
+    {
+      dotsContainer.insertAdjacentHTML('beforeend', 
+      `<button class="dots__dot" data-slide=${i}></button>`)
+    }
   })
+}
+
+createDots();
+
+const activateDot = (slide) => {
+  document.querySelectorAll('.dots__dot').forEach(dot=> {
+    dot.classList.remove('dots__dot--active');
+  })
+  document
+    .querySelector(`dots__dot[data-slide]=${slide}`)
+    .classList.add('dots__dot--active');
+}
+activateDot(0);
+dotsContainer.addEventListener('click', function(e) {
+  if(e.target.classList.contains('dots__dot')) {
+    const { slide } = e.target.dataset;
+    goToCurrentSlide(slide);
+    activateDot(slide);
+
+  }
 })
 
+
+
+
+//Progress bar addition ----------------------- --------------------- ---------------------------------  -------------------
+
 const progressBar = document.getElementById('reading-progress-fill');
-// window.addEventListener('scroll', function(e) {
-//   const y = window.scrollY 
-//   var scrollTop = $(window).scrollTop();
-//   var docHeight = $(document).height();
-//   var winHeight = $(window).height();
-//   var scrollPercent = (scrollTop) / (docHeight - winHeight);
-//   var scrollPercentRounded = Math.round(scrollPercent*100);
-//   progressBar.style.width = `${window.scrollY}px`;
-// })
 
 function getVerticalScrollPercentage( elm ){
   var p = elm.parentNode
@@ -234,7 +287,6 @@ function getVerticalScrollPercentage( elm ){
 
 document.onscroll = function(){ 
   var pos = getVerticalScrollPercentage(document.body)
-  // document.body.innerHTML = "<span>" + Math.round(pos) + "%<span>"
   progressBar.style.width = `${pos}%`;
 }
 
