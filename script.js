@@ -156,8 +156,8 @@ const sectionObserver = new IntersectionObserver(revealSectionCb, {
 //which section intercepted the viewport
 
 allSections.forEach(function(section) {
-  sectionObserver.observe(section);
-  section.classList.add('section--hidden')
+  // sectionObserver.observe(section);
+  // section.classList.add('section--hidden')
 })
 
 //lazy loading images
@@ -185,6 +185,60 @@ const imgObserver = new IntersectionObserver(loadImgCb, {
   rootMargin: '200px' //to load before the threshhold was actully reached
 });
 imgTargets.forEach(img => imgObserver.observe(img));
+
+
+//slider component
+
+const slides = document.querySelectorAll('.slide');
+const slider = document.querySelector('.slider');
+const btnLeft = document.querySelector('.slider__btn--left');
+const btnRight = document.querySelector('.slider__btn--right');
+let currentSlide = 0;
+let slideLength = slides.length - 1;
+
+slider.style.transform = 'scale(0.5) translateX(-300px)';
+slider.style.overflow = 'visible';
+slides.forEach((s, index) => {
+  s.style.transform = `translateX(${100 * index})`
+});
+
+btnRight.addEventListener('click', function() {
+  if(currentSlide === slideLength) {
+    currentSlide = 0;
+  }
+  else {
+    currentSlide++;
+  }
+  
+  slides.forEach((s, index) => {
+    s.style.transform = `translateX(${100 * (index - currentSlide)})`
+  })
+})
+
+const progressBar = document.getElementById('reading-progress-fill');
+// window.addEventListener('scroll', function(e) {
+//   const y = window.scrollY 
+//   var scrollTop = $(window).scrollTop();
+//   var docHeight = $(document).height();
+//   var winHeight = $(window).height();
+//   var scrollPercent = (scrollTop) / (docHeight - winHeight);
+//   var scrollPercentRounded = Math.round(scrollPercent*100);
+//   progressBar.style.width = `${window.scrollY}px`;
+// })
+
+function getVerticalScrollPercentage( elm ){
+  var p = elm.parentNode
+  return (elm.scrollTop || p.scrollTop) / (p.scrollHeight - p.clientHeight ) * 100
+}
+
+
+document.onscroll = function(){ 
+  var pos = getVerticalScrollPercentage(document.body)
+  // document.body.innerHTML = "<span>" + Math.round(pos) + "%<span>"
+  progressBar.style.width = `${pos}%`;
+}
+
+
 
 
 
